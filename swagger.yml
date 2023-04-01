@@ -1,0 +1,150 @@
+openapi: 3.0.0
+info:
+  title: File Management API
+  version: 1.0.0
+paths:
+  /api/files:
+    post:
+      summary: Получение файлов
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  type: string
+                  description: Путь к директории
+              required:
+                - path
+      responses:
+        '200':
+          description: Список файлов и директорий
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        type:
+                          type: string
+                          enum: [file, directory]
+
+  /api/read_file:
+    post:
+      summary: Чтение файла
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file_name:
+                  type: string
+                  description: Имя файла
+              required:
+                - file_name
+      responses:
+        '200':
+          description: Содержимое файла
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+
+  /api/rename_file:
+    post:
+      summary: Переименование файла
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                old_name:
+                  type: string
+                  description: Текущее имя файла
+                new_name:
+                  type: string
+                  description: Новое имя файла
+              required:
+                - old_name
+                - new_name
+      responses:
+        '200':
+          description: Файл успешно переименован
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /api/delete_file:
+    post:
+      summary: Удаление файла
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file_name:
+                  type: string
+                  description: Имя файла
+              required:
+                - file_name
+      responses:
+        '200':
+          description: Файл успешно удален
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /api/create_file:
+    post:
+      summary: Создание файла
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file_name:
+                  type: string
+                  description: Имя файла
+                content:
+                  type: string
+                  description: Содержимое файла
+              required:
+                - file_name
+                - content
+      responses:
+        '200':
+          description: Файл успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
